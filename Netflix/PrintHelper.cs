@@ -60,19 +60,17 @@ namespace Netflix
             }
 
             int maxWidth = 40;
-            int frameWidth = maxWidth + 2;
-
             for (int i = 0; i < movies.Count; i += 2) 
             {
                 string movie1Id = movies[i].Id.ToString();
                 string movie1Name = movies[i].Title;
-                string movie1Genre = movies[i].GenreName;
+                string movie1Genre = movies[i].GenrE.GenreName;
                 string movie1Duration = movies[i].Duration + " min";
                 string movie1Views = movies[i].ViewCount.ToString();
 
                 string movie2Id = (i + 1 < movies.Count) ? movies[i + 1].Id.ToString() : "";
                 string movie2Name = (i + 1 < movies.Count) ? movies[i + 1].Title : "";
-                string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenreName : "";
+                string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenrE.GenreName : "";
                 string movie2Duration = (i + 1 < movies.Count) ? movies[i + 1].Duration + " min" : "";
                 string movie2Views = (i + 1 < movies.Count) ? movies[i + 1].ViewCount.ToString() : "";
 
@@ -80,12 +78,12 @@ namespace Netflix
                 dd = movies.Count - i;
                 if (dd == 1)
                 {
-                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2);
+                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth);
                     Console.Write(" "); 
                 }
                 else
                 {
-                    PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
+                    PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
                 }
 
             }
@@ -93,14 +91,14 @@ namespace Netflix
 
         private static void PrintMovieFrame1(string id, string name, string genre, string duration, string views, int width)
         {
-            int padding = width / 2;
-            Console.WriteLine(" "+new string('-', width/2));
+            int padding = width;
+            Console.WriteLine(" "+new string('-', width));
             PrintCenteredText("ID: " + id, padding);
             PrintCenteredText("Name: " + name, padding);
             PrintCenteredText("Genre: " + genre, padding);
             PrintCenteredText("Duration: " + duration, padding);
             PrintCenteredText("Views: " + views, padding);
-            Console.WriteLine(" "+new string('-', width/2));
+            Console.WriteLine(" "+new string('-', width));
         }
 
         private static void PrintCenteredText(string text, int padding)
@@ -112,14 +110,14 @@ namespace Netflix
         }
         private static void PrintMovieFrame2(string id, string name, string genre, string duration, string views, int width, string id1, string name1, string genre1, string duration1, string views1)
         {
-            int padding = width/2;
-            Console.WriteLine(" " + new string('-', width/2)+ "   " + new string('-', width / 2));
+            int padding = width;
+            Console.WriteLine(" " + new string('-', width)+ "   " + new string('-', width));
             PrintCenteredText2("ID: " + id, "ID: " + id1, padding);
             PrintCenteredText2("Name: " + name, "Name: " + name1, padding);
             PrintCenteredText2("Genre: " + genre, "Genre: " + genre1, padding);
             PrintCenteredText2("Duration: " + duration, "Duration: " + duration1, padding);
             PrintCenteredText2("Views: " + views, "Views: " + views1, padding);
-            Console.WriteLine(" " + new string('-', width / 2) + "   " + new string('-', width / 2));
+            Console.WriteLine(" " + new string('-', width) + "   " + new string('-', width));
         }
 
         private static void PrintCenteredText2(string text1, string text2, int padding)
@@ -147,13 +145,12 @@ namespace Netflix
                 else if (movie.Id == id)
                 {
                     int maxWidth = 40;
-                    int frameWidth = maxWidth + 2;
                     string movie1Id = movie.Id.ToString();
                     string movie1Name = movie.Title;
-                    string movie1Genre = movie.GenreName;
+                    string movie1Genre = movie.GenrE.GenreName;
                     string movie1Duration = movie.Duration + " min";
                     string movie1Views = movie.ViewCount.ToString();
-                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2);
+                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth);
                     flag = true;
                     break;
                 }
@@ -164,85 +161,13 @@ namespace Netflix
             }
 
         }
-        internal static void PrintRecentlyViewed(List<History> movies)
-        {
-            if (movies == null || movies.Count == 0)
-            {
-                Console.WriteLine("No movies to display.");
-                return;
-            }
-            for (int i = 0; i < movies.Count; i += 2)
-            {
-                int maxWidth = 40;
-                string movie1Id = movies[i].Id.ToString();
-                string movie1Name = movies[i].Title;
-                string movie1Genre = movies[i].GenreName;
-                string movie1Duration = movies[i].Duration + " min";
-                string movie1Views = movies[i].ViewCount.ToString();
-
-                string movie2Id = (i + 1 < movies.Count) ? movies[i + 1].Id.ToString() : "";
-                string movie2Name = (i + 1 < movies.Count) ? movies[i + 1].Title : "";
-                string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenreName : "";
-                string movie2Duration = (i + 1 < movies.Count) ? movies[i + 1].Duration + " min" : "";
-                string movie2Views = (i + 1 < movies.Count) ? movies[i + 1].ViewCount.ToString() : "";
-
-                int dd;
-                dd = movies.Count - i;
-                if (dd == 1)
-                {
-                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2);
-                    Console.Write(" ");
-                }
-                else
-                {
-                    PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
-                }
-
-            }
-        }
-        internal static void PrintWatchList(List<WatchList> movies)
-        {
-            if (movies == null || movies.Count == 0)
-            {
-                Console.WriteLine("No movies to display.");
-                return;
-            }
-            for (int i = 0; i < movies.Count; i += 2)
-            {
-                int maxWidth = 40;
-                string movie1Id = movies[i].Id.ToString();
-                string movie1Name = movies[i].Title;
-                string movie1Genre = movies[i].GenreName;
-                string movie1Duration = movies[i].Duration + " min";
-                string movie1Views = movies[i].ViewCount.ToString();
-
-                string movie2Id = (i + 1 < movies.Count) ? movies[i + 1].Id.ToString() : "";
-                string movie2Name = (i + 1 < movies.Count) ? movies[i + 1].Title : "";
-                string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenreName : "";
-                string movie2Duration = (i + 1 < movies.Count) ? movies[i + 1].Duration + " min" : "";
-                string movie2Views = (i + 1 < movies.Count) ? movies[i + 1].ViewCount.ToString() : "";
-
-                int dd;
-                dd = movies.Count - i;
-                if (dd == 1)
-                {
-                    PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2);
-                    Console.Write(" ");
-                }
-                else
-                {
-                    PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
-                }                
-            }
-        }
-   
         internal static void PrintMoviesByGenre(List<Movie> movies, string genre)
         {
             int count = 0;
             foreach (Movie movie in movies)
             {
                 if (movie == null) continue;
-                else if (movie.GenreName == genre)
+                else if (movie.GenrE.GenreName == genre)
                 {
                     count++;
                 }
@@ -254,13 +179,13 @@ namespace Netflix
                     int maxWidth = 40;
                     string movie1Id = movies[i].Id.ToString();
                     string movie1Name = movies[i].Title;
-                    string movie1Genre = movies[i].GenreName;
+                    string movie1Genre = movies[i].GenrE.GenreName;
                     string movie1Duration = movies[i].Duration + " min";
                     string movie1Views = movies[i].ViewCount.ToString();
 
                     string movie2Id = (i + 1 < movies.Count) ? movies[i + 1].Id.ToString() : "";
                     string movie2Name = (i + 1 < movies.Count) ? movies[i + 1].Title : "";
-                    string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenreName : "";
+                    string movie2Genre = (i + 1 < movies.Count) ? movies[i + 1].GenrE.GenreName : "";
                     string movie2Duration = (i + 1 < movies.Count) ? movies[i + 1].Duration + " min" : "";
                     string movie2Views = (i + 1 < movies.Count) ? movies[i + 1].ViewCount.ToString() : "";
 
@@ -268,12 +193,12 @@ namespace Netflix
                     dd = count - i;
                     if (dd == 1)
                     {
-                        PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2);
+                        PrintMovieFrame1(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth);
                         Console.Write(" ");
                     }
                     else
                     {
-                        PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth * 2, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
+                        PrintMovieFrame2(movie1Id, movie1Name, movie1Genre, movie1Duration, movie1Views, maxWidth, movie2Id, movie2Name, movie2Genre, movie2Duration, movie2Views);
                     }
 
                 }

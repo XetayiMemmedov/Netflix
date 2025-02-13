@@ -63,18 +63,20 @@
                             }
                             int genreId;
                             string genrename = null;
+                            Genre genre = null;
                             while (true)
                             {
                                 Console.WriteLine("Choose genre id below:");
-                                PrintHelper.PrintGenres(datacontext._genres);
+                                PrintHelper.PrintGenres(datacontext.Genres);
                                 string input = Console.ReadLine();
 
                                 if (int.TryParse(input, out genreId))
                                 {
-                                    var genre = datacontext.GetGenre(genreId);
-                                    if (genre != null)
+                                    var genre1 = datacontext.GetGenre(genreId);
+                                    if (genre1 != null)
                                     {
-                                        genrename = genre.GenreName;
+                                        genrename = genre1.GenreName;
+                                        genre= genre1;
                                         break;
                                     }
                                     else
@@ -101,13 +103,13 @@
                                     Console.WriteLine("Please enter a valid positive number for duration.");
                                 }
                             }
-                            datacontext.AddMovie(moviename, genrename, duration);
-                            PrintHelper.PrintMovies(datacontext._movies);
+                            datacontext.AddMovie(moviename, genre, duration);
+                            PrintHelper.PrintMovies(datacontext.Movies);
                         }
                         else if (choise == "remove movie")
                         {
                             Console.WriteLine("Enter movie id to remove:");
-                            PrintHelper.PrintMovies(datacontext._movies);
+                            PrintHelper.PrintMovies(datacontext.Movies);
                             string input = null;
                             int id;
                             while (true)
@@ -129,13 +131,13 @@
                             Console.Write("Enter genre name:");
                             string genrename = Console.ReadLine();
                             datacontext.AddGenre(genrename);
-                            PrintHelper.PrintGenres(datacontext._genres);
+                            PrintHelper.PrintGenres(datacontext.Genres);
                         }
                         else if (choise == "remove genre")
                         {
 
                             Console.WriteLine("Enter genre id to remove:");
-                            PrintHelper.PrintGenres(datacontext._genres);
+                            PrintHelper.PrintGenres(datacontext.Genres);
                             string input = null;
                             int id;
                             while (true)
@@ -147,7 +149,7 @@
                                     if (genre != null)
                                     {
                                         datacontext.RemoveGenre(id);
-                                        PrintHelper.PrintGenres(datacontext._genres);
+                                        PrintHelper.PrintGenres(datacontext.Genres);
                                         break;
                                     }
                                 }
@@ -160,7 +162,7 @@
                         else if (choise == "most viewed")
                         {
                             var movie = datacontext.MostViewed();
-                            PrintHelper.PrintMoviesById(datacontext._movies, movie.Id);
+                            PrintHelper.PrintMoviesById(datacontext.Movies, movie.Id);
                         }
                         else if (choise == "exit")
                         {
@@ -189,7 +191,7 @@
                         if (choise == "watch movie")
                         {
                             Console.WriteLine("Enter movie id to watch:");
-                            PrintHelper.PrintMovies(datacontext._movies);
+                            PrintHelper.PrintMovies(datacontext.Movies);
                             string input = null;
                             int id;
                             while (true)
@@ -201,7 +203,7 @@
                                     if (movie != null)
                                     {
                                         datacontext.WatchMovie(id);
-                                        PrintHelper.PrintRecentlyViewed(datacontext._recentlytviewed);
+                                        PrintHelper.PrintMovies(datacontext.Recentlyviewed);
                                         break;
                                     }
                                     else
@@ -219,7 +221,7 @@
                         else if (choise == "add to watchlist")
                         {
                             Console.WriteLine("Enter movie id to add to watchlist:");
-                            PrintHelper.PrintMovies(datacontext._movies);
+                            PrintHelper.PrintMovies(datacontext.Movies);
                             string input = null;
                             int id;
                             while (true)
@@ -231,7 +233,7 @@
                                     if (movie != null)
                                     {
                                         datacontext.AddToWhatchlist(id);
-                                        PrintHelper.PrintWatchList(datacontext._watchlist);
+                                        PrintHelper.PrintMovies(datacontext.Watchlist);
                                         break;
                                     }
                                     else
@@ -257,7 +259,7 @@
                                     var movie = datacontext.GetMovieByName(name);
                                     if (movie != null)
                                     {
-                                        PrintHelper.PrintMoviesById(datacontext._movies, movie.Id);
+                                        PrintHelper.PrintMoviesById(datacontext.Movies, movie.Id);
                                         break;
                                     }
                                     else
@@ -274,7 +276,7 @@
                         else if (choise == "filter movie by genre")
                         {
                             Console.WriteLine("Enter genre id to view movies of that genre:");
-                            PrintHelper.PrintGenres(datacontext._genres);
+                            PrintHelper.PrintGenres(datacontext.Genres);
                             int id;
                             string input = null;
                             while (true)
@@ -285,7 +287,7 @@
                                     var genre = datacontext.GetGenre(id);
                                     if (genre != null)
                                     {
-                                        PrintHelper.PrintMoviesByGenre(datacontext._movies, genre.GenreName);
+                                        PrintHelper.PrintMoviesByGenre(datacontext.Movies, genre.GenreName);
                                         break;
                                     }
                                     else

@@ -9,11 +9,15 @@ namespace Netflix
     internal class Movie:BaseClass
     {
         public static int AutoIncrementedID = 1;
-       
-        public Movie(string title, string genre, int duration):base(title, genre, duration)
+        public string Title { get; set; }
+        public int Duration { get; set; }
+        public Genre GenrE { get; set; }
+        public int ViewCount { get; set; }
+
+        public Movie(string title, Genre genre, int duration)
         {
+            GenrE = genre;
             Title = title;
-            GenreName = genre;
             Duration = duration;
             ViewCount = 0;
             Id = AutoIncrementedID++;

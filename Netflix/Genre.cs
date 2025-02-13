@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Netflix
 {
-    internal class Genre
+    internal class Genre:BaseClass
     {
-        public int Id { get; set;}
         public static int AutoIncrementedID = 1;
         public string GenreName {  get; set; }
-
         public Genre(string genrename)
         {
             GenreName = genrename;

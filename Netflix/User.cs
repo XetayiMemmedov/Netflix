@@ -11,12 +11,12 @@ namespace Netflix
         Admin,
         User
     }
-    public class User()
+    internal class User()
     {
-
-        public string Password { get; set; }
-        public string Username { get; set; }
+        public string? Password { get; set; }
+        public string? Username { get; set; }
         public UserRole Role { get; set; }
+       
     }
     
 

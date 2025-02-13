@@ -14,29 +14,29 @@ namespace Netflix
 {
     internal class DataContext
     {
-        public List<Movie> _movies;
-        public List<Genre> _genres;
+        public List<Movie> Movies { get; set; }
+        public List<Genre> Genres { get; set; }
         private List<User> _users;
-        public List<History> _recentlytviewed;
-        public List<WatchList> _watchlist;
+        public List<Movie> Recentlyviewed {  get; set; }
+        public List<Movie> Watchlist {  get; set; }
 
 
         public DataContext()
         {
             _users = new List<User>();
-            _movies = new List<Movie>();
-            _genres = new List<Genre>();
+            Movies = new List<Movie>();
+            Genres = new List<Genre>();
             _users.Add(new User() { Username = "admin", Password = "1234", Role = UserRole.Admin });
             _users.Add(new User() { Username = "spectator", Password = "1234", Role = UserRole.User });
-            _genres.Add(new Genre("Bedii"));
-            _genres.Add(new Genre("Romantik"));
-            _genres.Add(new Genre("Psixolojik"));
-            _movies.Add(new Movie("Şerikli cörek", _genres[0].GenreName, 148));
-            _movies.Add(new Movie("Axirinci asirim", _genres[0].GenreName, 152));
-            _movies.Add(new Movie("Titanik", _genres[1].GenreName, 135));
-            _movies.Add(new Movie("Otel otagi 1405", _genres[2].GenreName, 110));
-            _recentlytviewed = new List<History>();
-            _watchlist = new List<WatchList>();
+            Genres.Add(new Genre("Bedii"));
+            Genres.Add(new Genre("Romantik"));
+            Genres.Add(new Genre("Psixolojik"));
+            Movies.Add(new Movie("Şerikli cörek", Genres[0], 148));
+            Movies.Add(new Movie("Axirinci asirim", Genres[0], 152));
+            Movies.Add(new Movie("Titanik", Genres[1], 135));
+            Movies.Add(new Movie("Otel otagi 1405", Genres[2], 110));
+            Recentlyviewed = new List<Movie>();
+            Watchlist = new List<Movie>();
 
 
 
@@ -55,14 +55,14 @@ namespace Netflix
             return false;
         }
 
-        public void AddMovie(string moviename, string genrename, int duration)
+        public void AddMovie(string moviename, Genre genre, int duration)
         {
-            if (moviename != null && genrename != null && duration > 0)
+            if (moviename != null && genre != null && duration > 0&& duration<1000)
             {
-                var movie = _movies.FirstOrDefault(m => m.Title == moviename);
+                var movie = Movies.FirstOrDefault(m => m.Title == moviename);
                 if (movie == null)
                 {
-                    _movies.Add(new Movie(moviename, genrename, duration));
+                    Movies.Add(new Movie(moviename, genre, duration));
                     Console.WriteLine($"{moviename} is successfully added to movielist.");
                 }
                 else
@@ -72,19 +72,19 @@ namespace Netflix
             }
             else
             {
-                Console.WriteLine("Movie, genre or duration cannot be empty.");
+                Console.WriteLine("Movie, genre or duration cannot be empty or invalid input.");
             }
 
         }
 
         public void RemoveMovie(int id)
         {
-            var movieToRemove = _movies.FirstOrDefault(m => m.Id == id);
+            var movieToRemove = Movies.FirstOrDefault(m => m.Id == id);
             if (movieToRemove != null)
             {
-                _movies.Remove(movieToRemove);
+                Movies.Remove(movieToRemove);
                 Console.WriteLine($"Movie with Title {movieToRemove.Title} has been removed.");
-                PrintHelper.PrintMovies(_movies);
+                PrintHelper.PrintMovies(Movies);
             }
             else
             {
@@ -97,10 +97,10 @@ namespace Netflix
         {
             if (genrename != null)
             {
-                var genre = _genres.FirstOrDefault(m => m.GenreName == genrename);
+                var genre = Genres.FirstOrDefault(m => m.GenreName == genrename);
                 if (genre == null)
                 {
-                    _genres.Add(new Genre(genrename));
+                    Genres.Add(new Genre(genrename));
                     Console.WriteLine($"{genrename} is successfully added to genre list.");
                 }
                 else
@@ -116,10 +116,10 @@ namespace Netflix
         }
         public void RemoveGenre(int id)
         {
-            var genreToRemove = _genres.FirstOrDefault(m => m.Id == id);
+            var genreToRemove = Genres.FirstOrDefault(m => m.Id == id);
             if (genreToRemove != null)
             {
-                _genres.Remove(genreToRemove);
+                Genres.Remove(genreToRemove);
                 Console.WriteLine($"Genre with the name {genreToRemove.GenreName} has been removed.");
             }
             else
@@ -130,7 +130,7 @@ namespace Netflix
         }
         public Genre? GetGenre(int id)
         {
-            foreach (var item in _genres)
+            foreach (var item in Genres)
             {
                 if (item == null) continue;
 
@@ -142,7 +142,7 @@ namespace Netflix
 
         public Movie? GetMovie(int id)
         {
-            foreach (var item in _movies)
+            foreach (var item in Movies)
             {
                 if (item == null) continue;
 
@@ -153,7 +153,7 @@ namespace Netflix
         }
         public Movie? GetMovieByName(string name)
         {
-            foreach (var item in _movies)
+            foreach (var item in Movies)
             {
                 if (item == null) continue;
                 else if (item.Title == name)
@@ -167,7 +167,7 @@ namespace Netflix
         {
             int max = 0;
             Movie movie;
-            foreach (var item in _movies)
+            foreach (var item in Movies)
             {
                 if (item == null) continue;
 
@@ -183,18 +183,18 @@ namespace Netflix
 
         public void WatchMovie(int id)
         {
-            foreach (var item in _movies)
+            foreach (var item in Movies)
             {
                 if (item == null) continue;
 
                 if (item.Id == id)
                 {
-                    var movie = _recentlytviewed.FirstOrDefault(m => m.Id == id);
+                    var movie = Recentlyviewed.FirstOrDefault(m => m.Id == id);
                     if (movie == null)
                     {
                         Console.WriteLine($"You are watching {item.Title}... ");
                         item.ViewCount++;
-                        _recentlytviewed.Add(new History(item.Title, item.GenreName, item.Duration));
+                        Recentlyviewed.Add(item);
                     }
                 }
             }
@@ -202,16 +202,16 @@ namespace Netflix
         }
         public void AddToWhatchlist(int id)
         {
-            foreach (var item in _movies)
+            foreach (var item in Movies)
             {
                 if (item == null) continue;
 
                 if (item.Id == id)
                 {
-                    var movie = _watchlist.FirstOrDefault(m => m.Id == id);
+                    var movie = Watchlist.FirstOrDefault(m => m.Id == id);
                     if (movie == null)
                     {
-                        _watchlist.Add(new WatchList(item.Title, item.GenreName, item.Duration));
+                        Watchlist.Add(item);
                         Console.WriteLine($"{item.Title} is successfully added to watchlist.");
 
                     }
