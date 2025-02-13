@@ -31,26 +31,6 @@ namespace Netflix
 
             Console.WriteLine(new string('-', 40));
         }
-        //internal static void PrintMovies(List<Movie> movies)
-        //{
-        //    if (movies == null || movies.Count == 0)
-        //    {
-        //        Console.WriteLine("No movies to display.");
-        //        return;
-        //    }
-
-        //    Console.WriteLine(new string('-', 85));
-        //    Console.WriteLine($"{"Id",-10}{"Name",-30}{"Genre",-20}{"Duration",-15}{"Viewcount",-10}");
-        //    Console.WriteLine(new string('-', 85));
-
-        //    foreach (Movie movie in movies)
-        //    {
-        //        if (movie == null) continue;
-        //        Console.WriteLine($"{movie.Id,-10}{movie.Title,-30}{movie.GenreName,-20}{movie.Duration+ " minutes",-15}{movie.ViewCount,-10}");
-        //    }
-
-        //    Console.WriteLine(new string('-', 85));
-        //}
         internal static void PrintMovies(List<Movie> movies)
         {
             if (movies == null || movies.Count == 0)
